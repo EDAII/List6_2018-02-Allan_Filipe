@@ -1,5 +1,5 @@
 
-def sortPartialLists(number_list):
+def sortList(number_list):
     aux = 0
 
     for i in range(0, len(number_list)):
@@ -12,7 +12,7 @@ def sortPartialLists(number_list):
     return number_list
 
 
-def sortAllLists(left_number_list, 
+def mergeLists(left_number_list, 
                  right_number_list, 
                  number_list_length):
     number_list = []
@@ -40,15 +40,22 @@ def sortAllLists(left_number_list,
 
 def mergeSort(number_list):
     number_list_length = len(number_list)
-    number_list_middle = number_list_length/2
-    left_number_list = number_list[0:number_list_middle]
-    right_number_list = number_list[number_list_middle:number_list_length]
+    if number_list_length >= 3:
+        number_list_middle = int(number_list_length/2)
+        left_number_list = number_list[0:number_list_middle]
+        right_number_list = number_list[number_list_middle:number_list_length]
 
-    left_number_list = sortPartialLists(left_number_list)
-    right_number_list = sortPartialLists(right_number_list)
-    final_list = sortAllLists(left_number_list,
-                              right_number_list,
-                              number_list_length)
+        left_number_list = mergeSort(left_number_list)
+        right_number_list = mergeSort(right_number_list)
+    elif number_list_length < 3:
+        number_list = sortList(number_list)
+        print(number_list)
+        return number_list
+
+    final_list = mergeLists(left_number_list,
+                            right_number_list,
+                            number_list_length)
+    print(final_list)
 
     return final_list
 
