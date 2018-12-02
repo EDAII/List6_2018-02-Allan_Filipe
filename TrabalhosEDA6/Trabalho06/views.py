@@ -3,21 +3,37 @@ import time
 
 
 def home(request):
-    if request.method == 'POST' and request.FILES['myfile']:
+    if request.method == 'POST' and request.FILES['myfile'] and request.POST['selectedOption']:
         myfile = request.FILES['myfile']
         byte_str = myfile.file.read()
         # Convert to a "unicode" object
         text_obj = byte_str.decode('UTF-8')
-        columns_descriptions, all_data = read_csv(text_obj.splitlines())
-        #
-        # print("ORDENAÇÃO selectionSort")
-        time_initial = time.time()
-        sorted_data = mergeSort(all_data)
-        time_final = time.time() - time_initial
 
-        return render(request, 'result.html', {'columns_descriptions': columns_descriptions,
-                                               'sorted_data': sorted_data,
-                                               'merge_sort_time': time_final})
+        columns_descriptions, all_data = read_csv(text_obj.splitlines())
+
+        # Choosing algorithm options
+        if request.POST['selectedOption'] == "Merge Sort Recursivo":
+            time_initial = time.time()
+            sorted_data = mergeSort(all_data)
+            time_final = time.time() - time_initial
+
+            return render(request, 'result.html', {'algorithm': request.POST['selectedOption'],
+                                                   'columns_descriptions': columns_descriptions,
+                                                   'sorted_data': sorted_data,
+                                                   'merge_sort_time': time_final})
+
+        elif request.POST['selectedOption'] == "Contador de Inversões":
+            time_initial = time.time()
+            time_final = time.time() - time_initial
+
+            return render(request, 'result.html', {'algorithm': request.POST['selectedOption'],
+                                                   'columns_descriptions': columns_descriptions,
+                                                   'all_data': all_data,
+                                                   'count_inversion_time': time_final})
+
+        else:
+            # Nothing to do
+            pass
     else:
         # Nothing to do
         pass
