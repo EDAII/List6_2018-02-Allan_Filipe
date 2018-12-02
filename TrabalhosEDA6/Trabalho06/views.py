@@ -22,13 +22,15 @@ def home(request):
                                                    'sorted_data': sorted_data,
                                                    'merge_sort_time': time_final})
 
-        elif request.POST['selectedOption'] == "Contador de Inversões":
+        elif request.POST['selectedOption'] == "Contador de Inversões + Merge Sort":
             time_initial = time.time()
+            sorted_data, inversions = mergeSortInversions(all_data)
             time_final = time.time() - time_initial
 
             return render(request, 'result.html', {'algorithm': request.POST['selectedOption'],
                                                    'columns_descriptions': columns_descriptions,
                                                    'all_data': all_data,
+                                                   'inversions': inversions,
                                                    'count_inversion_time': time_final})
 
         else:
@@ -58,48 +60,26 @@ def read_csv(file):
     return columns_descriptions, all_data
 
 
-def bubbleSort(dataset):
-    sorted_data = list(dataset)
-    time_initial = time.time()
-    final_position_to_be_checked = len(sorted_data) - 1
-    occurred_swap = True
-
-    while (final_position_to_be_checked > 0) and occurred_swap:
-        occurred_swap = False
-
-        for currently_checked_position in range(final_position_to_be_checked):
-            if int(sorted_data[currently_checked_position][0]) > int(sorted_data[currently_checked_position + 1][0]):
-                occurred_swap = True
-                temporary = sorted_data[currently_checked_position]
-                sorted_data[currently_checked_position] = sorted_data[currently_checked_position+1]
-                sorted_data[currently_checked_position+1] = temporary
-
-        final_position_to_be_checked = final_position_to_be_checked - 1
-
-    time_final = time.time() - time_initial
-    return sorted_data, time_final
-
 # Conquer function
 def sortList(data_list):
     aux = 0
 
     for i in range(0, len(data_list)):
-        for j in range(i+1, len(data_list)):
+        for j in range(i + 1, len(data_list)):
             if (int(data_list[i][0]) > int(data_list[j][0])):
                 aux = data_list[i]
                 data_list[i] = data_list[j]
                 data_list[j] = aux
-    
+
     return data_list
 
+
 # Merge function
-def mergeLists(left_data_list, 
-                 right_data_list, 
-                 data_list_length):
+def mergeLists(left_data_list, right_data_list, data_list_length):
     data_list = []
     left_position = 0
     right_position = 0
-    position = 0 
+    position = 0
 
     while position < data_list_length:
         if left_position >= len(left_data_list):
@@ -118,12 +98,14 @@ def mergeLists(left_data_list,
 
     return data_list
 
+
 # Divide function
-def mergeSort(data_list):
+def mergeSort(dataset):
+    data_list = list(dataset)
     data_list_length = len(data_list)
 
     if data_list_length >= 3:
-        data_list_middle = int(data_list_length/2)
+        data_list_middle = int(data_list_length / 2)
         left_data_list = data_list[0:data_list_middle]
         right_data_list = data_list[data_list_middle:data_list_length]
 
@@ -138,3 +120,38 @@ def mergeSort(data_list):
                             data_list_length)
 
     return final_list
+
+
+# Count Inversions + Merge Sort
+def mergeSortInversions(dataset):
+    data_list = list(dataset)
+
+    if len(data_list) == 1:
+        return data_list, 0
+
+    else:
+        left_data_list = data_list[:int(len(data_list) / 2)]
+        right_data_list = data_list[int(len(data_list) / 2):]
+
+        left_data_list, left_inversions = mergeSortInversions(left_data_list)
+        right_data_list, right_inversions = mergeSortInversions(right_data_list)
+
+        sorted_data = []
+        left_iterator = 0
+        right_iterator = 0
+        inversions = 0 + left_inversions + right_inversions
+
+    while left_iterator < len(left_data_list) and right_iterator < len(right_data_list):
+        if int(left_data_list[left_iterator][0]) <= int(right_data_list[right_iterator][0]):
+            sorted_data.append(left_data_list[left_iterator])
+            left_iterator += 1
+
+        else:
+            sorted_data.append(right_data_list[right_iterator])
+            right_iterator += 1
+            inversions += (len(left_data_list) - left_iterator)
+
+    sorted_data += left_data_list[left_iterator:]
+    sorted_data += right_data_list[right_iterator:]
+
+    return sorted_data, inversions

@@ -20,7 +20,8 @@
         {% if algorithm == 'Merge Sort Recursivo' %}
         <h1 class="col-12" style="margin-top: 20px; color:white">Merge Sort Recursivo</h1>
         <h4 class="col-12" style="margin-top: 10px; margin-bottom: 10px; color:white">Tempo de Execução: <b>{{merge_sort_time}}</b></h4>
-        <h6 class="col-12" style="margin-top: 10px; margin-bottom: 10px; color:white">*OBS.: O Merge Sort Recursivo é O(n Log n).</h6>
+        <h6 class="col-12" style="margin-top: 10px; margin-bottom: 10px; color:white">*OBS.: O Merge Sort Recursivo é
+            O(n Log n).</h6>
 
         <div class="row py-3">
             <div class="col-5">
@@ -29,7 +30,9 @@
                         <img src="{% static 'images/merge_sort.gif' %}" style="height: 200px" alt="Card image cap">
                     </div>
                     <div class="card-body">
-                        <center><h5 class="card-title">Demonstração do Funcionamento</h5></center>
+                        <center>
+                            <h5 class="card-title">Demonstração do Funcionamento</h5>
+                        </center>
                     </div>
                 </div>
             </div>
@@ -76,24 +79,24 @@
 
         {% endif %}
 
-        {% if algorithm == 'Contador de Inversões' %}
+        {% if algorithm == 'Contador de Inversões + Merge Sort' %}
 
-        <h1 class="col-12" style="margin-top: 20px; color:white">Contador de Inversões</h1>
-        <h4 class="col-12" style="margin-top: 10px; margin-bottom: 50px; color:white">Tempo de Execução: <b>{{total_time_final}}</b></h4>
-
-        <h2 class="col-12" style="margin-top: 50px; color:white">Algorítmos O(n Log n)</h2>
-        <h6 class="col-12" style="margin-top: 10px; margin-bottom: 10px; color:white">*OBS.: O Quick Sort é n² no pior
-            caso e, para poucos dados, pode ser mais lento que alguns n².</h6>
+        <h1 class="col-12" style="margin-top: 20px; color:white">Contador de Inversões + Merge Sort</h1>
+        <h4 class="col-12" style="margin-top: 10px; margin-bottom: 10px; color:white">Tempo de Execução: <b>{{count_inversion_time}}</b></h4>
+        <h4 class="col-12" style="margin-top: 10px; margin-bottom: 10px; color:white">Número de Inversões: <b>{{inversions}}</b></h4>
+        <h6 class="col-12" style="margin-top: 10px; margin-bottom: 10px; color:white">*OBS.: Utiliza o Merge Sort
+            Recursivo para contar as inversões, herdando a complexidade de O(n Log n).</h6>
 
         <div class="row py-3">
             <div class="col-5">
                 <div class="card">
                     <div class="card-img-top text-center">
-                        <img src="{% static 'images/quicksort.gif' %}" style="height: 200px" alt="Card image cap">
+                        <img src="{% static 'images/example_inversions.png' %}" style="height: 200px" alt="Card image cap">
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">*Quick Sort Time:</h5>
-                        <p class="card-text">{{ quick_sort_time }}</p>
+                        <center>
+                            <h5 class="card-title">Exemplo onde há 3 inversões</h5>
+                        </center>
                     </div>
                 </div>
             </div>
@@ -105,7 +108,7 @@
             </div>
         </div>
 
-        <h2 class="col-12" style="margin-bottom: 50px; margin-top: 50px; color:white">Registros do CSV</h2>
+        <h2 class="col-12" style="margin-bottom: 50px; margin-top: 50px; color:white">Registros do CSV Não Ordenados</h2>
 
         <center>
             <div id="loader" class="loader"></div>
